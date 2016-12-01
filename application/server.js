@@ -47,7 +47,7 @@ let plugins = [
   }, { //Plugin for swagger API documentation
     register: require('hapi-swagger'),
     options: {
-      host: host,
+      host: '192.168.99.100:3200',
       info: {
         title: 'Example API',
         description: 'Powered by node, hapi, joi, hapi-swaggered, hapi-swaggered-ui and swagger-ui',

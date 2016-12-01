@@ -1,13 +1,13 @@
 {
-  "name": "template_application",
+  "name": "xapi-service",
   "version": "0.1.0",
-  "description": "This is a Microservice template appication, meant to be forked.",
+  "description": "This is a Microservice implementation of aspects of the xAPI",
   "repository": {
     "type": "git",
-    "url": "https://github.com/slidewiki/Microservice-Template"
+    "url": "https://github.com/slidewiki/xapi-service"
   },
-  "bugs": "https://github.com/slidewiki/Microservice-Template/issues",
-  "author": "Roy Meissner (https://rmeissn.github.io/)",
+  "bugs": "https://github.com/slidewiki/xapi-service/issues",
+  "author": "Allan Third (allan.third@open.ac.uk)",
   "license": "MPL-2.0",
   "main": "server.js",
   "scripts": {
@@ -20,9 +20,7 @@
     "coverall": "npm run coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "countLOC": "sloc -f cli-table -k total,source,comment,empty -e node_modules\\|coverage ./",
     "countLOC:details": "sloc -f cli-table -d -e node_modules\\|coverage ./",
-    "start:watch": "nodemon",
-    "start:mongodb": "docker run -d --name mongotest -p 27018:27017 mongo",
-    "stop:mongodb": "docker stop mongotest && docker rm mongotest"
+    "start:watch": "nodemon"
   },
   "dependencies": {
     "ajv": "^4.5.0",
@@ -35,8 +33,10 @@
     "hapi-swagger": "^7.2.0",
     "inert": "^4.0.2",
     "joi": "^9.0.4",
-    "mongodb": "^2.2.8",
-    "vision": "^4.1.0"
+    "vision": "^4.1.0",
+    "request": "^2.75.0",
+    "adm-zip": "^0.4.7",
+    "request-promise": "^4.1.1"
   },
   "engines": {
     "node": ">=6.0.0"

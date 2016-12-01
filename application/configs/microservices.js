@@ -26,5 +26,14 @@ module.exports = {
   },
   'file': {
     uri: (!co.isEmpty(process.env.SERVICE_URL_FILE)) ? process.env.SERVICE_URL_FILE : 'http://fileservice.experimental.slidewiki.org'
+  },
+  'pdf': {
+    uri: (!co.isEmpty(process.env.SERVICE_URL_PDF)) ? process.env.SERVICE_URL_PDF : 'http://pdfservice.experimental.slidewiki.org'
+  },
+  'xapi': {
+    uri: (!co.isEmpty(process.env.SERVICE_URL_XAPI)) ? process.env.SERVICE_URL_XAPI : 'http://xapiservice.experimental.slidewiki.org'
+  },
+  'platform': {
+    uri: (!co.isEmpty(process.env.SERVICE_URL_PLATFORM)) ? process.env.SERVICE_URL_PLATFORM : 'http://experimental.slidewiki.org'
   }
 };
