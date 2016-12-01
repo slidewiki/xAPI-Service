@@ -8,4 +8,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/slidewiki/xapi-service/badge.svg?branch=master)](https://coveralls.io/github/slidewiki/xapi-service?branch=master)
 
 This repository contains the code for a NodeJS based Microservice of the Slidewiki 2.0 project enabling support for some aspects of the eXperience API (xAPI), also known as the Tin Can API.
-You want to **checkout this cool service**? Simply start the service and head over to: [http://localhost:3000/documentation](http://localhost:3000/documentation). We're using  [swagger](https://www.npmjs.com/package/hapi-swagger) to have this super cool API discrovery/documentation tool. BTW.: Did you already discoverd the super easy swagger integration inside [/application/routes.js](https://github.com/slidewiki/xapi-service/blob/master/application/routes.js)? Tags 'api' and 'description' were everything we needed to add.
+
+You want to **checkout this cool service**? Simply start the service and head over to: [http://localhost:3000/documentation](http://localhost:3000/documentation).
