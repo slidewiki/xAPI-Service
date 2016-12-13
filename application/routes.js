@@ -44,8 +44,8 @@ module.exports = function(server) {
           id: Joi.string().alphanum().lowercase().required().description('Slidewiki deck id')
         },
         query: {
-          format: Joi.string().valid('xml' ,'zip').required().default('xml').description('Required format.')//,
-          //offline: Joi.boolean().description('Include deck content for offline use. Default is false').optional()
+          format: Joi.string().valid('xml' ,'zip').required().default('xml').description('Required format.'),//,
+          offline: Joi.string().valid('true', 'false').description('Include deck content for offline use. Default is false').optional()//Joi.boolean().description('Include deck content for offline use. Default is false').optional()
         }
       },
       tags: ['api'],
