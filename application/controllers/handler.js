@@ -74,9 +74,16 @@ module.exports = {
                 file.on('finish', function() {
                   file.close(function() {
                     let zfile = new zip('temp' + outputFilename);
-                    zfile.addFile('tincan.xml', template);
-                    let buffer = zfile.toBuffer();
-                    reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+                    zfile.extractAllTo('exportedOfflineHTML-temp-' + id, true);
+
+                    let zfile2 = new zip();
+                    zfile2.addLocalFolder('exportedOfflineHTML-temp' + id);
+                    zfile2.addFile('tincan.xml', template);
+                    zfile.toBuffer( function(buffer) {
+                      reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+                    }, function(failure) {
+                      reply(boom.badImplementation());
+                    });
                   });  // close() is async, call cb after close completes.
                 });
               }).on('error', function(err) { // Handle errors
@@ -86,8 +93,11 @@ module.exports = {
             } else {
               let zfile = new zip();
               zfile.addFile('tincan.xml', template);
-              let buffer = zfile.toBuffer();
-              reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+              zfile.toBuffer( function(buffer) {
+                reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+              }, function(failure) {
+                reply(boom.badImplementation());
+              });
             }
           }
         }).catch(function(error) {
@@ -98,35 +108,18 @@ module.exports = {
         request.log(error);
         reply(boom.badImplementation());
       });
-    }
-    /*getEPubNavigationDocument: function(request, reply) {
-      let template = '<html xmlns="http://www.w3.org/1999/xhtml"\
-                      xmlns:epub="http://www.idpf.org/2007/ops">\
-                      <body>\
-                        <section>\
-                          <h1>SLIDEWIKI_TITLE</h1>\
-                            <nav epub:type="toc">\
-                              <h1>Contents</h1>\
-                              <ol>\
-                                SLIDEWIKI_EPUB_LIST_ITEMS\
-                              <ol>\
-                            </nav>\
-                        </section>\
-                      </body>\
-                      </html>';
-      let liTemplate = '<li>\
-                          <a href="index.html#/SLIDEWIKI_SLIDE_ID">SLIDEWIKI_SLIDE_TITLE</a>\
-                        </li>';
-
     },
-    getEPubPackageDocument: function(request, reply) {
-      let template='<package version="3.0" xmlns="http://www.idpf.org/2007/opf">\
-                      <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">\
-                      </metadata>\
-                      <manifest>\
-                      </manifest>\
-                      <spine>\
-                      </spine>\
-                    </package>';
-    }*/
+    getRequestEnd: function(request) {
+      if (request.params.id) {
+        if (request.path.includes('getTinCanPackage')) {
+          if (request.query.format && request.query.format === 'zip') {
+            fs.unlinkSync('slidewiki-xapi-deck-' + id + '.zip');
+            let offline = request.query.offline ? request.query.offline : false;
+            if (offline) {
+              fs.removeSync('exportedOfflineHTML-temp-' + id);
+            }
+          }
+        }
+      }
+    }
 };
