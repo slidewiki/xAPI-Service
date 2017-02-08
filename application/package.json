@@ -36,7 +36,7 @@
     "vision": "^4.1.1",
     "request": "^2.75.0",
     "adm-zip": "^0.4.7",
-    "request-promise": "^4.1.1"
+    "request-promise-native": "^1.0.3"
   },
   "engines": {
     "node": ">=6.9.0"

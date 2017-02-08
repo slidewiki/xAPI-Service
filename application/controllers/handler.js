@@ -7,7 +7,7 @@ Handles the requests by executing stuff and replying to the client. Uses promise
 const boom = require('boom'), //Boom gives us some predefined http codes and proper responses
   co = require('../common'),
   fs = require('fs'),
-  rp = require('request-promise'),
+  rp = require('request-promise-native'),
   zip = require('adm-zip'),
   http = require('http'),
   Microservices = require('../configs/microservices');
