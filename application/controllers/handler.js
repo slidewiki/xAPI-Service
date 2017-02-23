@@ -9,7 +9,6 @@ const boom = require('boom'), //Boom gives us some predefined http codes and pro
   fs = require('fs'),
   rp = require('request-promise-native'),
   zip = require('adm-zip'),
-  http = require('http'),
   Microservices = require('../configs/microservices');
 
 module.exports = {
@@ -69,7 +68,7 @@ module.exports = {
             let zipURI = Microservices.pdf.uri + '/exportOfflineHTML/' + id;
 
             let file = fs.createWriteStream('temp' + outputFilename);
-            let request = http.get(zipURI, function(response) {
+            rp(zipURI).then( function(response) {
               response.pipe(file);
               file.on('finish', function() {
                 file.close(function() {
@@ -86,7 +85,7 @@ module.exports = {
                   });
                 });  // close() is async, call cb after close completes.
               });
-            }).on('error', function(err) { // Handle errors
+            }).catch( function(err) {
               fs.unlink('temp' + outputFilename); // Delete the file async. (But we don't check the result)
               reply(boom.badImplementation());
             });
