@@ -1,5 +1,5 @@
 xapiservice:
-  image: slidewiki/xapi-service
+  image: slidewiki/xapiservice
   restart: on-failure:5
   expose:
     - "80"
