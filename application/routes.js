@@ -55,5 +55,5 @@ module.exports = function(server) {
 
   server.on('tail', function(request) {
     return handlers.getRequestEnd(request);
-  })
+  });
 };
