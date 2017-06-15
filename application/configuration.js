@@ -29,10 +29,21 @@ if (!co.isEmpty(process.env.DATABASE_PORT)){
 }
 
 module.exports = {
+
   MongoDB: {
     PORT: port,
     HOST: host,
     NS: 'local',
     SLIDEWIKIDATABASE: 'slidewiki'
-  }
+  },
+
+  // TODO setup defaults / env variables for the LRS connection parameters
+
+  LRS: {
+    endpoint: 'http://localhost/data/xAPI/',
+    username: '4a329c5713654db2a6aa41260af684e3dc31ee6d',
+    password: '883244eb455a9666233f6c0dc1cdda15a0ac2dd7',
+    allowFail: false,
+  },
+
 };
