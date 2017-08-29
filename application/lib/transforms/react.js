@@ -13,7 +13,7 @@ const self = module.exports = {
       throw boom.badData(`Unsupported reaction type: ${activity.react_type}`);
     }
 
-    return new TinCan.Statement({
+    let statement = new TinCan.Statement({
 
       verb: {
         id: 'https://w3id.org/xapi/acrossx/verbs/liked',
@@ -25,7 +25,7 @@ const self = module.exports = {
       actor: {
         objectType: 'Agent',
         name: activity.user.username,
-        // TODO figure out how to provide authorization from platform to here 
+        // TODO figure out how to provide authorization from platform to here
         // in order to be able to receive sensitive data ?
 
         // TODO Investigate how LRS can manage anonymous data (unregistered users)
@@ -33,6 +33,10 @@ const self = module.exports = {
         // TODO Support more data for LRS to link to account in LRS (after integration)
 
         // mbox: `mailto:${activity.user.email}`,
+        account: {
+            name: activity.user.username,
+            homePage : `${Microservices.platform.uri}/user/${activity.user.username}`
+        }
       },
 
       object: {
@@ -48,6 +52,7 @@ const self = module.exports = {
       },
 
     });
+    return statement;
 
   },
 
