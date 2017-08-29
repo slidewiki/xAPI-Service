@@ -34,8 +34,8 @@ const self = module.exports = {
 
         // mbox: `mailto:${activity.user.email}`,
         account: {
-            name: activity.user.username,
-            homePage : `${Microservices.platform.uri}/user/${activity.user.username}`
+          name: activity.user.username,
+          homePage : `${Microservices.platform.uri}/user/${activity.user.username}`
         }
       },
 

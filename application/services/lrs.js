@@ -22,7 +22,7 @@ const self = module.exports = {
                 try {
                   details = JSON.parse(xhr.responseText);
                   console.log(JSON.stringify(details));
-                } catch (err) { console.log('Error 1: ' + err)}
+                } catch (err) { console.log('Error 1: ' + err);}
 
                 errMessage.push(details && details.message || xhr.responseText);
               } else {
@@ -30,7 +30,7 @@ const self = module.exports = {
               }
               console.log(JSON.stringify({activity, statement}));
               errMessage.push(JSON.stringify({activity, statement}));
-              console.log('Error 2: ' + errMessage)
+              console.log('Error 2: ' + errMessage);
               return reject(new Error(errMessage));
             }
             console.log('XHR: ' + xhr.responseText);
