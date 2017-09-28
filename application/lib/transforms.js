@@ -40,9 +40,11 @@ const self = module.exports = {
 
 const transforms = {};
 function getTransform(activityType) {
+  console.log('tansforms.activityType='+activityType);
   let transform = transforms[activityType];
   if (transform) return transform;
 
+  console.log('transform='+transform);
   ({ transform } = require(`./transforms/${activityType}`));
   transforms[activityType] = transform;
 

@@ -39,11 +39,20 @@ module.exports = {
 
   // TODO setup defaults / env variables for the LRS connection parameters
 
+/*
   LRS: {
     endpoint: 'http://localhost/data/xAPI/',
     username: '4a329c5713654db2a6aa41260af684e3dc31ee6d',
     password: '883244eb455a9666233f6c0dc1cdda15a0ac2dd7',
     allowFail: false,
+  },
+
+  */
+  LRS: {
+    endpoint: 'https://learninglocker.experimental.slidewiki.org/data/xAPI',
+    username: '65314590b80412fd6c8bc081c3b2f9cf2e2d62c1',
+    password: 'f49decea58e1cd8f1dd10e168fc74631c980450f',
+    allowFail: true,
   },
 
 };
