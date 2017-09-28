@@ -12,9 +12,9 @@ const self = module.exports = {
   transform: function(activity) {
 
     // TODO support more reaction types ?
-    console.log('add.activity.react_type='+activity.type);
-    if (activity.react_type !== 'add') {
-      throw boom.badData(`Unsupported reaction type: ${activity.type}`);
+    //console.log('add.activity.react_type='+activity.type);
+    if (activity.activity_type !== 'add') {
+      throw boom.badData(`Unsupported reaction type: ${activity..activity_type}`);
     }
 
     //let userId = activity.userId;
@@ -23,7 +23,7 @@ const self = module.exports = {
     let statement = new TinCan.Statement({
 
       verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/added',
+        id: 'https://brindlewaye.com/xAPITerms/verbs/added',
         display: {
           en: 'added',
         },

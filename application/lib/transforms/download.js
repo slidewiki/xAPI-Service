@@ -11,7 +11,6 @@ const self = module.exports = {
 
   transform: function(activity) {
     // TODO support more reaction types ?
-    console.log('download.activity.activity_type='+activity.activity_type);
     if (activity.activity_type !== 'download') {
       throw boom.badData(`Unsupported activity type: ${activity.activity_type}`);
     }

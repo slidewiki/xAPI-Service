@@ -11,7 +11,7 @@ const self = module.exports = {
 
   transform: function(activity) {
     // TODO support more reaction types ?
-    console.log('comment.activity.activity_type='+activity.activity_type);
+    //console.log('comment.activity.activity_type='+activity.activity_type);
     if (activity.activity_type !== 'comment') {
       throw boom.badData(`Unsupported activity type: ${activity.activity_type}`);
     }
@@ -22,7 +22,7 @@ const self = module.exports = {
     let statement = new TinCan.Statement({
 
       verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/commented',
+        id: 'http://adlnet.gov/expapi/verbs/commented',
         display: {
           en: 'commented',
         },

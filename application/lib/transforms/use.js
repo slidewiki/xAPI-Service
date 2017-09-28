@@ -10,21 +10,18 @@ const Microservices = require('../../configs/microservices');
 const self = module.exports = {
 
   transform: function(activity) {
+
     // TODO support more reaction types ?
-    //console.log('like.activity.react_type='+activity.react_type);
-    if (activity.react_type !== 'like') {
-      throw boom.badData(`Unsupported reaction type: ${activity.react_type}`);
+    if (activity.activity_type !== 'use') {
+      throw boom.badData(`Unsupported reaction type: ${activity.activity_type}`);
     }
 
-    //let userId = activity.userId;
-    //console.log('xApi.userId='+userId);
-    //console.log('xApi.username='+activity.user.username);
     let statement = new TinCan.Statement({
 
       verb: {
-        id: 'https://w3id.org/xapi/acrossx/verbs/liked',
+        id: 'https://w3id.org/xapi/acrossx/verbs/used',
         display: {
-          en: 'liked',
+          en: 'used',
         },
       },
 

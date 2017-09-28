@@ -11,7 +11,7 @@ const self = module.exports = {
 
   transform: function(activity) {
     // TODO support more reaction types ?
-    console.log('fork.activity.activity_type='+activity.activity_type);
+    //console.log('fork.activity.activity_type='+activity.activity_type);
     if (activity.activity_type !== 'fork') {
       throw boom.badData(`Unsupported reaction type: ${activity.activity_type}`);
     }
