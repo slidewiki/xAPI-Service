@@ -16,9 +16,7 @@ const self = module.exports = {
     //if (activity.react_type !== null)
     //  lrs = require(`./${activity.react_type}`);
     //else if (activity.activity_type !== null)
-        lrs = require(`./${activity}`);
-
-
+    lrs = require(`./${activity}`);
     let statement = lrs.transform(activity);
     return statement;
 
