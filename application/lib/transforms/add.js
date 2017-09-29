@@ -14,7 +14,7 @@ const self = module.exports = {
     // TODO support more reaction types ?
     //console.log('add.activity.react_type='+activity.type);
     if (activity.activity_type !== 'add') {
-      throw boom.badData(`Unsupported reaction type: ${activity..activity_type}`);
+      throw boom.badData(`Unsupported reaction type: ${activity.activity_type}`);
     }
 
     //let userId = activity.userId;
