@@ -23,6 +23,7 @@
     "start:watch": "nodemon"
   },
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "ajv": "^4.11.0",
     "boom": "^4.2.0",
     "database-cleaner": "^1.2.0",
@@ -33,10 +34,10 @@
     "hapi-swagger": "^7.6.0",
     "inert": "^4.1.0",
     "joi": "^10.2.0",
-    "vision": "^4.1.1",
     "request": "^2.75.0",
-    "adm-zip": "^0.4.7",
-    "request-promise-native": "^1.0.3"
+    "request-promise-native": "^1.0.3",
+    "tincanjs": "^0.50.0",
+    "vision": "^4.1.1"
   },
   "engines": {
     "node": ">=6.9.0"
