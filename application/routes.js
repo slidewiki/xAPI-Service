@@ -60,8 +60,15 @@ module.exports = function(server) {
     path: '/activities',
     handler: activities.processActivity,
     config: {
+      auth: {
+        mode: 'optional',
+        strategy: 'jwt'
+      },
       validate: {
         payload: Joi.array().items(Joi.object()).single(),
+        headers: Joi.object({
+          '----jwt----': Joi.string().description('JWT header provided by /login')
+        }).unknown(),
       },
       tags: ['api'],
       description: 'Receive slidewiki user activity data and process it by forwarding a suitable statement to the LRS instance',

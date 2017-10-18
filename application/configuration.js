@@ -28,6 +28,12 @@ if (!co.isEmpty(process.env.DATABASE_PORT)){
   console.log('Using ' + port + ' as database port.');
 }
 
+let JWTSerial = '69aac7f95a9152cd4ae7667c80557c284e413d748cca4c5715b3f02020a5ae1b';
+if (!co.isEmpty(process.env.JWT_SERIAL)){
+  JWTSerial = process.env.JWT_SERIAL;
+}
+
+
 module.exports = {
 
   MongoDB: {
@@ -35,6 +41,12 @@ module.exports = {
     HOST: host,
     NS: 'local',
     SLIDEWIKIDATABASE: 'slidewiki'
+  },
+
+  JWT: {
+    SERIAL: JWTSerial,
+    HEADER: '----jwt----',
+    ALGORITHM:  'HS512'
   },
 
   // TODO setup defaults / env variables for the LRS connection parameters
