@@ -5,9 +5,9 @@ const transforms = require('../lib/transforms');
 
 const self = module.exports = {
 
-  saveActivity: function(activity) {
+  saveActivity: function(activity, credentials) {
     console.log('Saving activity: ' + JSON.stringify(activity));
-    return transforms.transform(activity).then((statement) => {
+    return transforms.transform(activity, credentials).then((statement) => {
 
       return new Promise((resolve, reject) => {
         console.log('Statement being sent is: ');

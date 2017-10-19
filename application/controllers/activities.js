@@ -12,7 +12,7 @@ module.exports = {
     let activities = request.payload;
     activities.reduce((p, act) => {
       return p.then(() => {
-        return lrsService.saveActivity(act);
+        return lrsService.saveActivity(act, request.auth.credentials);
       });
 
     }, Promise.resolve())

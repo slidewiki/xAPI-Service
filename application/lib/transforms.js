@@ -5,7 +5,7 @@ const userService = require('../services/user');
 
 const self = module.exports = {
 
-  transform: function(activity) {
+  transform: function(activity, credentials) {
     // first verify we support the activity
     let doTransform = getTransform(activity.activity_type);
     if (!doTransform) return Promise.reject(boom.badData(`Unsupported activity type: ${activity.activity_type}`));
@@ -23,10 +23,19 @@ const self = module.exports = {
       delete activity.content._id;
       delete activity.content.revisions;
 
+      activity.user = {};
+
+      if (credentials) {
+        Object.assign(activity.user, {
+          id: credentials.userid,
+          username: credentials.username,
+          mbox_sha1: sha1Hash(credentials.email),
+        });
+      }
+
       return userService.fetchUserInfo([parseInt(activity.user_id)]).then((users) => {
         // just one user
-        activity.user = users[0];
-
+        Object.assign(activity.user, users[0]);
         return doTransform(activity);
       });
 
@@ -50,4 +59,19 @@ function getTransform(activityType) {
   transforms[activityType] = transform;
 
   return transform;
+}
+
+
+// support computing sha1 hashes
+let crypto = require('crypto');
+
+function sha1Hash(str) {
+  if (!str) return;
+
+  let hash;
+  hash = crypto.createHash('sha1');
+  hash.update(str);
+
+  let hexHash = hash.digest('hex');
+  return hexHash;
 }
