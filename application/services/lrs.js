@@ -14,19 +14,21 @@ const self = module.exports = {
         console.log(JSON.stringify(statement));
         console.log('Statement finished.');
         getLRS().saveStatement(statement, {
-          callback: (err, xhr) => {
-            if (err) {
+          callback: (httpErrorCode, xhr) => {
+            if (httpErrorCode !== null) {
               let errMessage = [];
-              if (xhr) {
+              if (xhr !== null) {
                 let details;
                 try {
                   details = JSON.parse(xhr.responseText);
                   console.log(JSON.stringify(details));
-                } catch (err) { console.log('Error 1: ' + err);}
+                } catch (err) {
+                  console.log('Error 1: ' + err);
+                }
 
                 errMessage.push(details && details.message || xhr.responseText);
               } else {
-                errMessage.push(err);
+                errMessage.push(`HTTP Error Code: ${httpErrorCode}`);
               }
               console.log(JSON.stringify({activity, statement}));
               errMessage.push(JSON.stringify({activity, statement}));
