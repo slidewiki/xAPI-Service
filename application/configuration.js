@@ -61,9 +61,9 @@ module.exports = {
 
   */
   LRS: {
-    endpoint: 'https://learninglocker.experimental.slidewiki.org/data/xAPI',
-    username: '65314590b80412fd6c8bc081c3b2f9cf2e2d62c1',
-    password: 'f49decea58e1cd8f1dd10e168fc74631c980450f',
+    endpoint: 'https://xapi.learninglocker.experimental.slidewiki.org/data/xAPI',
+    username: '7317904fa8b6f7e93d1c59874e47c84001994304',
+    password: '26921b133273173c141abf14a4ac8087ee481115',
     allowFail: true,
   },
 
