@@ -7,8 +7,6 @@ Each route implementes a basic parameter/payload validation and a swagger API do
 const Joi = require('joi'),
   handlers = require('./controllers/handler');
 
-const activities = require('./controllers/activities');
-
 module.exports = function(server) {
   //Get slide with id id from database and return it (when not available, return NOT FOUND). Validate id
   server.route({
@@ -53,26 +51,6 @@ module.exports = function(server) {
       tags: ['api'],
       description: 'Get a TinCan API launch package containing the given deck.'
     }
-  });
-
-  server.route({
-    method: 'POST',
-    path: '/activities',
-    handler: activities.processActivity,
-    config: {
-      auth: {
-        mode: 'optional',
-        strategy: 'jwt'
-      },
-      validate: {
-        payload: Joi.array().items(Joi.object()).single(),
-        headers: Joi.object({
-          '----jwt----': Joi.string().description('JWT header provided by /login')
-        }).unknown(),
-      },
-      tags: ['api'],
-      description: 'Receive slidewiki user activity data and process it by forwarding a suitable statement to the LRS instance',
-    },
   });
 
   server.on('tail', (request) => {
