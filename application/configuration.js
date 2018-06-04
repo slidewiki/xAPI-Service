@@ -49,22 +49,4 @@ module.exports = {
     ALGORITHM:  'HS512'
   },
 
-  // TODO setup defaults / env variables for the LRS connection parameters
-
-/*
-  LRS: {
-    endpoint: 'http://localhost/data/xAPI/',
-    username: '4a329c5713654db2a6aa41260af684e3dc31ee6d',
-    password: '883244eb455a9666233f6c0dc1cdda15a0ac2dd7',
-    allowFail: false,
-  },
-
-  */
-  LRS: {
-    endpoint: 'https://xapi.learninglocker.experimental.slidewiki.org/data/xAPI',
-    username: '7317904fa8b6f7e93d1c59874e47c84001994304',
-    password: '26921b133273173c141abf14a4ac8087ee481115',
-    allowFail: true,
-  },
-
 };

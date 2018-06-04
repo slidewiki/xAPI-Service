@@ -37,7 +37,6 @@
     "joi": "^10.2.0",
     "request": "^2.75.0",
     "request-promise-native": "^1.0.3",
-    "tincanjs": "^0.50.0",
     "vision": "^4.1.1"
   },
   "engines": {
