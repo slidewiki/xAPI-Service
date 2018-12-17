@@ -26,7 +26,8 @@ module.exports = function(server) {
           activity_id: Joi.string().optional(),
           activity_platform: Joi.string().optional(),
           'Accept-Language' : Joi.string().optional(),
-          grouping: Joi.string().optional()
+          grouping: Joi.string().optional(),
+          language: Joi.string().optional()
         }
       },
       tags: ['api'],
@@ -45,7 +46,8 @@ module.exports = function(server) {
         },
         query: {
           format: Joi.string().valid('xml' ,'zip').required().default('xml').description('Required format.'),//,
-          offline: Joi.string().valid('true', 'false').description('Include deck content for offline use. Default is false').optional()//Joi.boolean().description('Include deck content for offline use. Default is false').optional()
+          offline: Joi.string().valid('true', 'false').description('Include deck content for offline use. Default is false').optional(),//Joi.boolean().description('Include deck content for offline use. Default is false').optional()
+          language: Joi.string().optional()
         }
       },
       tags: ['api'],

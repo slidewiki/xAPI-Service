@@ -14,16 +14,22 @@ const boom = require('boom'), //Boom gives us some predefined http codes and pro
 
 module.exports = {
   launchContent: function(request, reply) {
-    presentation_uri = Microservices.platform.uri + '/Presentation/' + request.params.id;
+    let language = '';
+    if (request.query) {
+      language = request.query.language ? request.query.language : '';
+    }
+    let presentation_uri = Microservices.platform.uri + '/Presentation/' + request.params.id + (language !== '' ? '?language=' + language : '');
     return reply.redirect(presentation_uri);
   },
   getTinCanPackage: function(request, reply) {
     let offline = false;
     let format = 'xml';
+    let language = '';
     let id = 1;
     if (request.query) {
       offline = request.query.offline ? request.query.offline : false;
       format = request.query.format ? request.query.format : 'xml';
+      language = request.query.language ? request.query.language : '';
     }
     if (request.params) {
       id = request.params.id ? request.params.id : 1;
@@ -42,7 +48,7 @@ module.exports = {
 
     rp(req_url).then(function(body) {
       let revision_count=body;
-      let req_url = Microservices.deck.uri + '/deck/' + id;
+      let req_url = Microservices.deck.uri + '/deck/' + id + (language !== '' ? '?language=' + language : '');
       rp(req_url).then(function(body) {
         let deck_metadata = JSON.parse(body);
         let description = deck_metadata.description;
@@ -57,7 +63,7 @@ module.exports = {
         if (offline) {
           presentation_uri = 'index.html';
         } else {
-          presentation_uri = Microservices.xapi.uri + '/launch/' + id; //Microservices.platform.uri + '/Presentation/' + id;
+          presentation_uri = Microservices.xapi.uri + '/launch/' + id + (language !== '' ? '?language=' + language : ''); //Microservices.platform.uri + '/Presentation/' + id;
         }
         template = template.replace(/SLIDEWIKI_PRESENTATION_URL/g, presentation_uri).replace(/SLIDEWIKI_TITLE/g, title).replace(/SLIDEWIKI_DESCRIPTION/g, description);
         if (format === 'xml') {
@@ -66,7 +72,7 @@ module.exports = {
         } else if (format === 'zip') {
           let outputFilename = 'slidewiki-xapi-deck-' + id + '.zip';
           if (offline) {
-            let zipURI = Microservices.pdf.uri + '/exportOfflineHTML/' + id;
+            let zipURI = Microservices.pdf.uri + '/exportOfflineHTML/' + id + (language !== '' ? '?language=' + language : '');
             let file = fs.createWriteStream('temp' + outputFilename);
             let zipReq = rp(zipURI).on('error', function(err) {
               fs.unlink(outputFilename); // Delete the file async. (But we don't check the result)
