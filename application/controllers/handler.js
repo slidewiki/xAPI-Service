@@ -6,9 +6,10 @@ Handles the requests by executing stuff and replying to the client. Uses promise
 
 const boom = require('boom'), //Boom gives us some predefined http codes and proper responses
   co = require('../common'),
-  fs = require('fs'),
+  fs = require('fs-extra'),
   rp = require('request-promise-native'),
   zip = require('adm-zip'),
+  archiver = require('archiver'),
   Microservices = require('../configs/microservices');
 
 module.exports = {
@@ -66,56 +67,82 @@ module.exports = {
           let outputFilename = 'slidewiki-xapi-deck-' + id + '.zip';
           if (offline) {
             let zipURI = Microservices.pdf.uri + '/exportOfflineHTML/' + id;
-
             let file = fs.createWriteStream('temp' + outputFilename);
-            rp(zipURI).then( function(response) {
-              response.pipe(file);
-              file.on('finish', function() {
-                file.close(function() {
-                  let zfile = new zip('temp' + outputFilename);
-                  zfile.extractAllTo('exportedOfflineHTML-temp-' + id, true);
-
-                  let zfile2 = new zip();
-                  zfile2.addLocalFolder('exportedOfflineHTML-temp' + id);
-                  zfile2.addFile('tincan.xml', template);
-                  zfile.toBuffer( function(buffer) {
-                    reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
-                  }, function(failure) {
-                    reply(boom.badImplementation());
-                  });
-                });  // close() is async, call cb after close completes.
-              });
-            }).catch( function(err) {
-              fs.unlink('temp' + outputFilename); // Delete the file async. (But we don't check the result)
+            let zipReq = rp(zipURI).on('error', function(err) {
+              fs.unlink(outputFilename); // Delete the file async. (But we don't check the result)
               reply(boom.badImplementation());
+            }).pipe(file);
+            file.on('finish', function() {
+              file.close(function() {
+                let zfile = new zip('temp' + outputFilename);
+                zfile.extractAllTo('exportedOfflineHTML-temp-' + id, /*overwrite*/true);
+
+                let outputArchive = fs.createWriteStream('temp-' + outputFilename);
+                let archive = archiver('zip', {
+                  zlib: { level: 9}
+                });
+                archive.on('warning', function(err) {
+                  console.log('Archive warning ' + err);
+                });
+
+                archive.on('error', function(err) {
+                  console.log('Archive error ' + err);
+                });
+                archive.pipe(outputArchive);
+                archive.directory('exportedOfflineHTML-temp-' + id + '/', false);
+                archive.append(template, { name: 'tincan.xml'});
+                outputArchive.on('close', function() {
+                  reply.file('temp-' + outputFilename).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+                });
+                archive.finalize();
+              });
             });
           } else {
-            let zfile = new zip();
-            zfile.addFile('tincan.xml', template);
-            zfile.toBuffer( function(buffer) {
-              reply(buffer).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
-            }, function(failure) {
-              reply(boom.badImplementation());
+            let outputArchive = fs.createWriteStream('temp-' + outputFilename);
+            let archive = archiver('zip', {
+              zlib: { level: 9}
             });
+
+            archive.on('warning', function(err) {
+              console.log('Archive warning ' + err);
+            });
+
+            archive.on('error', function(err) {
+              console.log('Archive error ' + err);
+            });
+
+            archive.pipe(outputArchive);
+            archive.append(template, { name: 'tincan.xml'});
+
+            outputArchive.on('close', function() {
+              reply.file('temp-' + outputFilename).header('Content-Disposition', 'attachment; filename=' + outputFilename).header('Content-Type', 'application/zip');
+            });
+
+            archive.finalize();
           }
         }
+      }).catch(function(error) {
+          console.log(error);
+          fs.unlink('temp-' + outputFilename); // Delete the file async. (But we don't check the result)
+          fs.unlink('temp' + outputFilename); // Delete the file async. (But we don't check the result)
+          reply(boom.badImplementation());
+        });
+
       }).catch(function(error) {
         request.log(error);
         reply(boom.badImplementation());
       });
-    }).catch(function(error) {
-      request.log(error);
-      reply(boom.badImplementation());
-    });
-  },
+    },
   getRequestEnd: function(request) {
     if (request.params.id) {
       if (request.path.includes('getTinCanPackage')) {
         if (request.query.format && request.query.format === 'zip') {
-          fs.unlinkSync('slidewiki-xapi-deck-' + id + '.zip');
+          let outputFilename = 'slidewiki-xapi-deck-' + request.params.id + '.zip';
+          fs.unlinkSync('temp-' + outputFilename);
           let offline = request.query.offline ? request.query.offline : false;
           if (offline) {
-            fs.removeSync('exportedOfflineHTML-temp-' + id);
+            fs.removeSync('exportedOfflineHTML-temp-' + request.params.id);
+            fs.unlinkSync('temp' + outputFilename);
           }
         }
       }
