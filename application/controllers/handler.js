@@ -122,17 +122,17 @@ module.exports = {
           }
         }
       }).catch(function(error) {
-          console.log(error);
-          fs.unlink('temp-' + outputFilename); // Delete the file async. (But we don't check the result)
-          fs.unlink('temp' + outputFilename); // Delete the file async. (But we don't check the result)
-          reply(boom.badImplementation());
-        });
-
-      }).catch(function(error) {
-        request.log(error);
+        console.log(error);
+        fs.unlink('temp-' + outputFilename); // Delete the file async. (But we don't check the result)
+        fs.unlink('temp' + outputFilename); // Delete the file async. (But we don't check the result)
         reply(boom.badImplementation());
       });
-    },
+
+    }).catch(function(error) {
+      request.log(error);
+      reply(boom.badImplementation());
+    });
+  },
   getRequestEnd: function(request) {
     if (request.params.id) {
       if (request.path.includes('getTinCanPackage')) {
